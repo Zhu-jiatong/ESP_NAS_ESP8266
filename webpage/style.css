@@ -34,7 +34,7 @@ button {
     background-color: skyblue;
     border: none;
     border-radius: 8px;
-    padding: 1%;
+    padding: 0.5%;
 }
 
 button:hover {

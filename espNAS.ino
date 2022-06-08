@@ -3,8 +3,8 @@
 
 void setup()
 {
-    SD.begin(D8);
-
+    hasSD = SD.begin(D8);
+    SDsize = humanReadableSize(SD.size64());
     initOLED();
     stage = IDLE;
 

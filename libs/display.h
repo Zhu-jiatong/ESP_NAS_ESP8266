@@ -21,7 +21,8 @@ void printStr()
     display.printf("PSK: %s\n", WiFi.softAPPSK().c_str());
     display.printf("Domain: %s\n", dnsDom);
     yield();
-    display.printf("Client: %i\n", WiFi.softAPgetStationNum());
+    display.printf("Client: %i   SD: %d\n", WiFi.softAPgetStationNum(), hasSD);
+    display.printf("Max.Size: %s\n", SDsize);
     display.printf("Upload: %s\n", (stage == START ? "Starting upload..." : stage == ING ? "Uploading..."
                                                                                          : "Idle :)"));
     display.printf("Reboot: %i", needReboot);

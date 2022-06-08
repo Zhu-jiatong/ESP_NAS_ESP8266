@@ -1,22 +1,19 @@
-#include <MUIU8g2.h>
-#include <U8g2lib.h>
-#include <U8x8lib.h>
-
 #include "libs/webCfg.h"
-FSInfo64 info_64;
-
-short cycle{};
+#include "libs/display.h"
 
 void setup()
 {
     SD.begin(D8);
+
+    initOLED();
+    stage = IDLE;
 
     WiFi.mode(WIFI_AP);
     WiFi.softAP(apssid);
 
     dnsServer.setTTL(300);
     dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
-    dnsServer.start(DNS_PORT, "www.nas.com", WiFi.softAPIP());
+    dnsServer.start(DNS_PORT, dnsDom, WiFi.softAPIP());
 
     /* server.onNotFound([](AsyncWebServerRequest *request)
                       { getPage(request); }); */
@@ -33,5 +30,6 @@ void setup()
 
 void loop()
 {
+    printStr();
     dnsServer.processNextRequest();
 }

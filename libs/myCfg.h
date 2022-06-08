@@ -1,6 +1,17 @@
 #if !defined(MYCFG_h)
 #define MYCFG_h
 
-constexpr char *apssid = "TONY_NAS";
-constexpr auto DNS_PORT = 53;
+#include <DNSServer.h>
+#include <ESP8266WiFi.h>
+#include <ESPAsyncWebServer.h>
+#include <ESPAsyncTCP.h>
+#include <SD.h>
+
+enum uploadStages
+{
+    START,
+    ING,
+    IDLE
+} stage;
+
 #endif // MYCFG_h

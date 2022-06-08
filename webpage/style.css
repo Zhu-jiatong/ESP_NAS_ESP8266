@@ -1,0 +1,36 @@
+body {
+    background-color: beige;
+    font-family: monospace;
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+button {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    background-color: skyblue;
+    border: none;
+    border-radius: 8px;
+    padding: 1%;
+}
+
+button:hover {
+    box-shadow: 0 12px 10px 0;
+    background-color: lightskyblue;
+}
+
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 9px 7px 0;
+}
+
+#btn {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    background-color: skyblue;
+    border: none;
+    border-radius: 8px;
+    padding: 1%;
+}

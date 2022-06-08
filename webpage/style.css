@@ -17,12 +17,34 @@ button {
 
 button:hover {
     box-shadow: 0 12px 10px 0;
-    background-color: lightskyblue;
+    background-color: yellowgreen;
 }
 
 button:active {
     transform: translateY(3px);
     box-shadow: 0 9px 7px 0;
+}
+
+#down {
+    background-color: forestgreen;
+    color: white;
+    box-shadow: black;
+    padding: 5px;
+}
+
+#del {
+    background-color: red;
+    color: white;
+    box-shadow: black;
+    padding: 5px;
+}
+
+#del:hover {
+    box-shadow: 0 12px 10px 0 black;
+}
+
+#down:hover {
+    box-shadow: 0 12px 10px 0 black;
 }
 
 #btn {

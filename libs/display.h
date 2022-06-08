@@ -18,7 +18,7 @@ void printStr()
     display.clearDisplay();
     display.setCursor(0, 0);
     display.printf("SSID: %s\n", WiFi.softAPSSID());
-    display.printf("PSK: %s\n", WiFi.softAPPSK());
+    display.printf("PSK: %s\n", WiFi.softAPPSK().c_str());
     display.printf("Domain: %s\n", dnsDom);
     yield();
     display.printf("Client: %i\n", WiFi.softAPgetStationNum());

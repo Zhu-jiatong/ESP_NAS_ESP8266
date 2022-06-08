@@ -8,15 +8,23 @@
 </head>
 
 <body>
-    <h1>Main page</h1>
-    <p>Total Storage: <span id="totalsd">%TOTALSD%</span></p>
-    <p>
-        <button onclick="listFilesButton()">List Files</button>
-        <button onclick="showUploadButtonFancy()">Upload File</button>
-    </p>
-    <p id="status"></p>
-    <p id="detailsheader"></p>
-    <p id="details"></p>
+    <div class="header pad">
+        <h1>Tony's Private NAS</h1>
+    </div>
+    <div class="slip pad">
+        <p>Powered by NodeMCU 1.0 (ESP-12E Module)</p>
+    </div>
+    <div class="pad">
+        <p>Total Storage: <span id="totalsd">%TOTALSD%</span></p>
+
+        <p>
+            <button onclick="listFilesButton()">List Files</button>
+            <button onclick="showUploadButtonFancy()">Upload File</button>
+        </p>
+        <p id="status"></p>
+        <p id="detailsheader"></p>
+        <p id="details"></p>
+    </div>
     <script>
         function listFilesButton() {
             xmlhttp = new XMLHttpRequest();

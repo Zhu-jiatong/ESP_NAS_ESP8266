@@ -3,9 +3,31 @@ body {
     font-family: monospace;
     font-size: x-large;
     font-weight: bolder;
+    margin: 0;
+}
+
+.header {
+    background-color: lightblue;
+    color: black;
+}
+
+.slip {
+    background-color: grey;
+    color: white;
+}
+
+.pad {
+    padding-left: 25px;
+    padding-top: 0.2px;
+    padding-bottom: 0.2px;
+}
+
+.main {
+    float: left;
 }
 
 button {
+    color: black;
     font-size: inherit;
     font-family: inherit;
     font-weight: inherit;
@@ -16,13 +38,13 @@ button {
 }
 
 button:hover {
-    box-shadow: 0 12px 10px 0;
+    box-shadow: 0 12px 10px 0 black;
     background-color: yellowgreen;
 }
 
 button:active {
     transform: translateY(3px);
-    box-shadow: 0 9px 7px 0;
+    box-shadow: 0 9px 7px 0 black;
 }
 
 #down {
@@ -55,4 +77,8 @@ button:active {
     border: none;
     border-radius: 8px;
     padding: 1%;
+}
+
+progress {
+    height: 45px;
 }

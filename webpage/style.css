@@ -18,8 +18,9 @@ body {
 
 .pad {
     padding-left: 25px;
-    padding-top: 0.2px;
-    padding-bottom: 0.2px;
+    padding-right: 25px;
+    padding-top: 0.1px;
+    padding-bottom: 0.1px;
 }
 
 .main {

@@ -9,17 +9,12 @@ void setup()
     stage = IDLE;
 
     WiFi.mode(WIFI_AP);
-    WiFi.softAP(apssid);
+    WiFi.softAP(apssid, appsk);
 
     dnsServer.setTTL(300);
     dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
     dnsServer.start(DNS_PORT, dnsDom, WiFi.softAPIP());
 
-    /* server.onNotFound([](AsyncWebServerRequest *request)
-                      { getPage(request); }); */
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SDFS, "/index.html", "text/html", false, processor); });
-    server.serveStatic("/", SDFS, "/");
     server.on("/listfiles", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(200, "text/plain", listFiles()); });
     server.onFileUpload(handleUpload);

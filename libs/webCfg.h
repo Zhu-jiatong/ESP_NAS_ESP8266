@@ -31,46 +31,6 @@ String processor(const String &var)
     return String();
 }
 
-String getMimeType(String &path)
-{
-    if (path.endsWith("/"))
-        path += "index.html";
-
-    if (path.endsWith(".html") || path.endsWith(".htm"))
-        return "text/html";
-    else if (path.endsWith(".css"))
-        return "text/css";
-    else if (path.endsWith(".js"))
-        return "application/javascript";
-    else if (path.endsWith(".png"))
-        return "image/png";
-    else if (path.endsWith(".gif"))
-        return "image/gif";
-    else if (path.endsWith(".jpg"))
-        return "image/jpeg";
-    else if (path.endsWith(".ico"))
-        return "image/x-icon";
-    else if (path.endsWith(".xml"))
-        return "text/xml";
-    else if (path.endsWith(".pdf"))
-        return "application/pdf";
-}
-
-void getPage(AsyncWebServerRequest *request)
-{
-    String path{request->url()};
-    String mimeType{getMimeType(path)};
-    if (SD.exists(path))
-        request->send(SDFS, path, mimeType);
-    else
-    {
-        String message = "Invalid File\n\nURI: " + request->url() + "\nMethod: " + request->methodToString() + "\nArguments: " + String(request->args()) + "\n";
-        for (uint8_t i = 0; i < request->args(); i++)
-            message += " NAME:" + request->argName(i) + "\n VALUE:" + request->arg(i) + "\n";
-        request->send(404, "text/plain", message);
-    }
-}
-
 String listFiles()
 {
     File root = SD.open("/");
@@ -138,9 +98,44 @@ void handleFile(AsyncWebServerRequest *request)
 
 void handleNotFound(AsyncWebServerRequest *request)
 {
-    String message = "URI: " + request->url() + "\nMethod: " + request->methodToString() + "\nArguments: " + String(request->args()) + "\n";
-    for (uint8_t i = 0; i < request->args(); i++)
-        message += " NAME:" + request->argName(i) + "\n VALUE:" + request->arg(i) + "\n";
-    request->send(404, "text/plain", message);
+    String path{request->url()};
+    String mime{};
+    if (path.endsWith("/"))
+    {
+        path += "index.html";
+        request->send(SDFS, "/index.html", "text/html", false, processor);
+    }
+    else if (SD.exists(path))
+    {
+        if (path.endsWith(".html") || path.endsWith(".htm"))
+            mime = "text/html";
+        else if (path.endsWith(".css"))
+            mime = "text/css";
+        else if (path.endsWith(".js"))
+            mime = "text/javascript";
+        else if (path.endsWith(".png"))
+            mime = "image/png";
+        else if (path.endsWith(".gif"))
+            mime = "image/gif";
+        else if (path.endsWith(".jpg") || path.endsWith(".jpeg"))
+            mime = "image/jpeg";
+        else if (path.endsWith(".ico"))
+            mime = "image/x-icon";
+        else if (path.endsWith(".xml"))
+            mime = "text/xml";
+        else if (path.endsWith(".mp4"))
+            mime = "video/mp4";
+        else if (path.endsWith(".pdf"))
+            mime = "application/pdf";
+
+        request->send(SDFS, path, mime);
+    }
+    else
+    {
+        String message = "URI: " + request->url() + "\nMethod: " + request->methodToString() + "\nArguments: " + String(request->args()) + "\n";
+        for (uint8_t i = 0; i < request->args(); i++)
+            message += " NAME:" + request->argName(i) + "\n VALUE:" + request->arg(i) + "\n";
+        request->send(404, "text/plain", message);
+    }
 }
 #endif // WEBCFG_h

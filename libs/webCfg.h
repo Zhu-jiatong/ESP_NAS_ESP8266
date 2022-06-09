@@ -21,19 +21,15 @@ String processor(const String &var)
 
 String listFiles()
 {
-    File root = SD.open("/");
-    File foundfile = root.openNextFile();
+    Dir root = SDFS.openDir("/");
     String returnText{"<table><tr><th align='left'>Name</th><th align='left'>Size</th><th></th><th></th></tr>"};
-    while (foundfile)
+    while (root.next())
     {
-        returnText += "<tr align='left'><td>" + String(foundfile.name()) + "</td><td>" + humanReadableSize(foundfile.size()) + "</td>";
-        returnText += "<td><button id=\"down\" onclick=\"downloadDeleteButton(\'" + String(foundfile.name()) + "\', \'download\')\">Download</button>";
-        returnText += "<td><button id=\"del\" onclick=\"downloadDeleteButton(\'" + String(foundfile.name()) + "\', \'delete\')\">Delete</button></tr>";
-        foundfile = root.openNextFile();
+        returnText += "<tr align='left'><td>" + String(root.fileName()) + "</td><td>" + humanReadableSize(root.fileSize()) + "</td>";
+        returnText += "<td><button id=\"down\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'download\')\">Download</button>";
+        returnText += "<td><button id=\"del\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'delete\')\">Delete</button></tr>";
     }
     returnText += "</table>";
-    root.close();
-    foundfile.close();
     return returnText;
 }
 

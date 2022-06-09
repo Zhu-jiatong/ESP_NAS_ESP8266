@@ -1,30 +1,44 @@
 body {
+    margin: 0px;
     background-color: beige;
-    font-family: monospace;
-    font-size: x-large;
-    font-weight: bolder;
-    margin: 0;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.pad {
+    padding: 25px;
 }
 
 .header {
     background-color: lightblue;
     color: black;
+    height: 35px;
+    font-size: 30pt;
+    text-align: center;
+    font-weight: bolder;
 }
 
-.slip {
-    background-color: grey;
+.welcome {
+    background-color: gray;
     color: white;
+    font-size: 15pt;
+    text-align: center;
+    height: 30px;
+    margin: 0px;
 }
 
-.pad {
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: 0.1px;
-    padding-bottom: 0.1px;
-}
-
-.main {
+.main-text {
+    width: 60%;
     float: left;
+    font-size: 15pt;
+}
+
+.divs {
+    margin: 5px;
+    width: 25%;
+    float: left;
+    border: 4px solid lightblue;
+    background-color: white;
 }
 
 button {

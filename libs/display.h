@@ -17,12 +17,12 @@ void printStr()
 {
     display.clearDisplay();
     display.setCursor(0, 0);
-    display.printf("SSID: %s\n", WiFi.softAPSSID());
-    display.printf("PSK: %s\n", WiFi.softAPPSK().c_str());
-    display.printf("Domain: %s\n", dnsDom);
+    display.printf("AP_SSID: %s\n", WiFi.softAPSSID());
+    display.printf("AP_PSK: %s\n", WiFi.softAPPSK().c_str());
     yield();
-    display.printf("Client: %i   SD: %d\n", WiFi.softAPgetStationNum(), hasSD);
-    display.printf("Max.Size: %s\n", SDsize);
+    display.printf("Client: %i\n", WiFi.softAPgetStationNum());
+    display.printf("SD: %d Size: %s\n", hasSD, SDsize);
+    display.printf("STA_IP: %s\n", WiFi.localIP().toString().c_str());
     display.printf("Upload: %s\n", (stage == START ? "Starting upload..." : stage == ING ? "Uploading..."
                                                                                          : "Idle :)"));
     display.printf("Reboot: %i", needReboot);

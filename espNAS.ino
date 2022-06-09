@@ -3,6 +3,7 @@
 
 void setup()
 {
+    Serial.begin(115200);
     hasSD = SD.begin(D8);
     SDsize = humanReadableSize(SD.size64());
     initOLED();
@@ -11,14 +12,15 @@ void setup()
     WiFi.mode(WIFI_AP);
     WiFi.softAP(apssid, appsk);
 
-    dnsServer.setTTL(300);
-    dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
-    dnsServer.start(DNS_PORT, dnsDom, WiFi.softAPIP());
+    APdnsServer.setTTL(300);
+    APdnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
+    APdnsServer.start(DNS_PORT, dnsDom, WiFi.softAPIP());
 
     server.on("/listfiles", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(200, "text/plain", listFiles()); });
     server.onFileUpload(handleUpload);
     server.on("/file", HTTP_GET, handleFile);
+    server.on("/postSTA", HTTP_GET, handleSTA);
     server.onNotFound(handleNotFound);
     server.begin();
 }
@@ -26,5 +28,5 @@ void setup()
 void loop()
 {
     printStr();
-    dnsServer.processNextRequest();
+    APdnsServer.processNextRequest();
 }

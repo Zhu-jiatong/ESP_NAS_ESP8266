@@ -9,7 +9,7 @@ constexpr char *dnsDom = "www.nas.com";
 constexpr auto DNS_PORT = 53;
 
 bool needReboot(false);
-DNSServer dnsServer;
+DNSServer APdnsServer, STAdnsServer;
 AsyncWebServer server(80);
 
 String processor(const String &var)
@@ -125,5 +125,41 @@ void handleNotFound(AsyncWebServerRequest *request)
             message += " NAME:" + request->argName(i) + "\n VALUE:" + request->arg(i) + "\n";
         request->send(404, "text/plain", message);
     }
+}
+
+void handleSTA(AsyncWebServerRequest *request)
+{
+    if (request->hasParam("sta_ssid") && request->hasParam("sta_psk"))
+    {
+        String message;
+        if (request->getParam("sta_ssid")->value() == "" && WiFi.getMode() != WIFI_AP)
+            WiFi.mode(WIFI_AP);
+        else
+            WiFi.mode(WIFI_AP_STA);
+
+        switch (WiFi.begin(request->getParam("sta_ssid")->value(), request->getParam("sta_psk")->value()))
+        {
+        case WL_CONNECTED:
+            message = "WL_CONNECTED";
+            break;
+        case WL_NO_SSID_AVAIL:
+            message = "WL_NO_SSID_AVAIL";
+            break;
+        case WL_CONNECT_FAILED:
+            message = "WL_CONNECT_FAILED";
+            break;
+        case WL_WRONG_PASSWORD:
+            message = "WL_WRONG_PASSWORD";
+            break;
+        case WL_IDLE_STATUS:
+            message = "WL_IDLE_STATUS";
+        default:
+            message = "WL_DISCONNECTED";
+            break;
+        }
+        request->send(200, "text/plain", message);
+    }
+    else
+        request->send(400, "text/plain", "ERROR: name and action params required");
 }
 #endif // WEBCFG_h

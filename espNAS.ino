@@ -3,13 +3,12 @@
 
 void setup()
 {
-    Serial.begin(115200);
     hasSD = SD.begin(D8);
     SDsize = humanReadableSize(SD.size64());
     initOLED();
     stage = IDLE;
 
-    WiFi.mode(WIFI_AP);
+    WiFi.mode(WIFI_AP_STA);
     WiFi.softAP(apssid, appsk);
 
     APdnsServer.setTTL(300);

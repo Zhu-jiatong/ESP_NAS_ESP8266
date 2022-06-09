@@ -132,10 +132,11 @@ void handleSTA(AsyncWebServerRequest *request)
     if (request->hasParam("sta_ssid") && request->hasParam("sta_psk"))
     {
         String message;
-        if (request->getParam("sta_ssid")->value() == "" && WiFi.getMode() != WIFI_AP)
-            WiFi.mode(WIFI_AP);
-        else
-            WiFi.mode(WIFI_AP_STA);
+        if (!request->getParam("sta_ssid")->value().length())
+        {
+            WiFi.disconnect();
+            return;
+        }
 
         switch (WiFi.begin(request->getParam("sta_ssid")->value(), request->getParam("sta_psk")->value()))
         {

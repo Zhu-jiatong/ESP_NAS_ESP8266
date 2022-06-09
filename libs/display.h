@@ -22,6 +22,10 @@ void printStr()
     yield();
     display.printf("Client: %i\n", WiFi.softAPgetStationNum());
     display.printf("SD: %d Size: %s\n", hasSD, SDsize);
+    display.printf("WiFi: %s\n", (WiFi.getMode() == WIFI_AP ? "WIFI_AP" : WiFi.getMode() == WIFI_AP_STA ? "WIFI_AP_STA"
+                                                                    : WiFi.getMode() == WIFI_STA      ? "WIFI_STA"
+                                                                                                      : "WIFI_OFF"));
+    yield();
     display.printf("STA_IP: %s\n", WiFi.localIP().toString().c_str());
     display.printf("Upload: %s\n", (stage == START ? "Starting upload..." : stage == ING ? "Uploading..."
                                                                                          : "Idle :)"));

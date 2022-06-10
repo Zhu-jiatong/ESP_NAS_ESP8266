@@ -3,7 +3,7 @@
 
 void setup()
 {
-    hasSD = SD.begin(D8);
+    hasSD = SD.begin(D8, SPI_FULL_SPEED);
     SDsize = humanReadableSize(SD.size64());
     initOLED();
     stage = IDLE;

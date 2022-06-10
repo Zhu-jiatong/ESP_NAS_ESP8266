@@ -27,5 +27,6 @@ void setup()
 void loop()
 {
     printStr();
+    updateTimer();
     APdnsServer.processNextRequest();
 }

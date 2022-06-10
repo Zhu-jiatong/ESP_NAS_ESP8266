@@ -36,10 +36,7 @@ String listFiles()
 void handleUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
 {
     if (!index) // open the file on first call and store the file handle in the request object
-    {
         request->_tempFile = SD.open("/" + filename, "w");
-        stage = START;
-    }
     if (len) // stream the incoming chunk to the opened file
     {
         request->_tempFile.write(data, len);

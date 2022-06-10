@@ -6,16 +6,21 @@
 #include <ESPAsyncWebServer.h>
 #include <ESPAsyncTCP.h>
 #include <SD.h>
+#include <Adafruit_SSD1306.h>
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
+#define sToMillis(sec) (sec * 1000)
+#define milToS(mil) (mil / 1000)
 
 enum uploadStages
 {
-    START,
     ING,
     IDLE
 } stage;
 
 bool hasSD{false};
 String SDsize{};
+unsigned long wakeTime{sToMillis(60)}, leftTime{};
 
 String humanReadableSize(const uint64_t bytes)
 {

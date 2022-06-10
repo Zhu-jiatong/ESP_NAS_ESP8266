@@ -9,6 +9,10 @@ void setup()
     stage = IDLE;
 
     WiFi.mode(WIFI_AP_STA);
+    String appsk;
+    for (short i = 0; i < 8; ++i)
+        appsk += char(random(32, 126));
+
     WiFi.softAP(apssid, appsk);
 
     APdnsServer.setTTL(300);

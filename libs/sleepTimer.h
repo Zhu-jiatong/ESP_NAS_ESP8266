@@ -17,8 +17,8 @@ void updateTimer()
             prevTime = nowTime;
             display.clearDisplay();
             display.setTextSize(2);
-            display.setCursor(1, 1);
-            display.print("Sleeping\n...");
+            display.setCursor(0, 0);
+            display.print("\n Sleeping\n ...");
             display.display();
             ESP.deepSleep(0);
         }

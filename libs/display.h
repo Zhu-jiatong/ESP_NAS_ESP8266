@@ -26,7 +26,7 @@ void printStr()
     yield();
     display.printf("STA_IP: %s\n", WiFi.localIP().toString().c_str());
     display.printf("Upload: %s\n", (stage == ING ? "Uploading..." : "Idle :)"));
-    display.printf("Sleep: %i sec", milToS(leftTime));
+    display.printf("To Sleep: %i sec", milToS(leftTime));
     display.display();
 }
 #endif // DISPLAY_h

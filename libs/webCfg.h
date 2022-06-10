@@ -4,7 +4,6 @@
 #include "myCfg.h"
 
 constexpr char *apssid = "TONY_NAS";
-constexpr char *appsk = "mynas080622";
 constexpr char *dnsDom = "www.nas.com";
 constexpr auto DNS_PORT = 53;
 

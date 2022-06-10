@@ -20,7 +20,7 @@ enum uploadStages
 
 bool hasSD{false};
 String SDsize{};
-unsigned long wakeTime{sToMillis(60)}, leftTime{};
+unsigned long wakeTime{sToMillis(90)}, leftTime{};
 
 String humanReadableSize(const uint64_t bytes)
 {

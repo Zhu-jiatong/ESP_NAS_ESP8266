@@ -89,3 +89,11 @@ function STACfg() {
     document.getElementById("details").innerHTML = xmlhttp.responseText;
 }
 
+function showPreview(fileName) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = fileName;
+    captionText.innerHTML = fileName;
+}

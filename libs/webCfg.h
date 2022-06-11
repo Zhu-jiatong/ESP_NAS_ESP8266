@@ -25,10 +25,11 @@ String listFiles()
     while (root.next())
     {
         returnText += "<tr align='left'><td>" + String(root.fileName()) + "</td><td>" + humanReadableSize(root.fileSize()) + "</td>";
-        returnText += "<td><button id=\"down\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'download\')\">Download</button>";
-        returnText += "<td><button id=\"del\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'delete\')\">Delete</button></tr>";
+        returnText += "<td><button id=\"prev\" onclick=\"showPreview(\'" + String(root.fileName()) + "\')\">Preview</button></td>";
+        returnText += "<td><button id=\"down\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'download\')\">Download</button></td>";
+        returnText += "<td><button id=\"del\" onclick=\"downloadDeleteButton(\'" + String(root.fileName()) + "\', \'delete\')\">Delete</button></td>";
     }
-    returnText += "</table>";
+    returnText += "</tr></table>";
     return returnText;
 }
 

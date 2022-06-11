@@ -1,3 +1,5 @@
+window.onload = listFilesButton();
+
 function listFilesButton() {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "/listfiles", false);
@@ -79,7 +81,6 @@ function STACfg() {
     var form = document.forms['sta'];
 
     var urltocall = "/postSTA?sta_ssid=" + document.sta.sta_ssid.value + "&sta_psk=" + document.sta.sta_psk.value;
-    console.log(urltocall);
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", urltocall, false);
     xmlhttp.send();

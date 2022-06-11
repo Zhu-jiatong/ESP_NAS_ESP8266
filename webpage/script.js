@@ -1,11 +1,15 @@
+function _(el) {
+    return document.getElementById(el);
+}
+
 window.onload = listFilesButton();
 
 function listFilesButton() {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "/listfiles", false);
     xmlhttp.send();
-    document.getElementById("detailsheader").innerHTML = "<h3>Files<h3>";
-    document.getElementById("details").innerHTML = xmlhttp.responseText;
+    _("detailsheader").innerHTML = "<h3>Files<h3>";
+    _("details").innerHTML = xmlhttp.responseText;
 }
 function downloadDeleteButton(filename, action) {
     var urltocall = "/file?name=" + filename + "&action=" + action;
@@ -13,37 +17,35 @@ function downloadDeleteButton(filename, action) {
     if (action == "delete") {
         xmlhttp.open("GET", urltocall, false);
         xmlhttp.send();
-        document.getElementById("status").innerHTML = xmlhttp.responseText;
+        _("status").innerHTML = xmlhttp.responseText;
         xmlhttp.open("GET", "/listfiles", false);
         xmlhttp.send();
-        document.getElementById("details").innerHTML = xmlhttp.responseText;
+        _("details").innerHTML = xmlhttp.responseText;
     }
     if (action == "download") {
-        document.getElementById("status").innerHTML = "";
+        _("status").innerHTML = "";
         window.open(urltocall, "_blank");
     }
 }
 function showUploadButtonFancy() {
-    document.getElementById("detailsheader").innerHTML = "<h3>Upload File<h3>"
-    document.getElementById("status").innerHTML = "";
+    _("detailsheader").innerHTML = "<h3>Upload File<h3>"
+    _("status").innerHTML = "";
     var uploadform = "<form method = \"POST\" action = \"/\" enctype=\"multipart/form-data\"><input type=\"file\" name=\"data\"/><input type=\"submit\" name=\"upload\" value=\"Upload\" title = \"Upload File\"></form>"
-    document.getElementById("details").innerHTML = uploadform;
+    _("details").innerHTML = uploadform;
     var uploadform =
         "<form id=\"upload_form\" enctype=\"multipart/form-data\" method=\"post\">" +
-        "<input type=\"file\" name=\"file1\" id=\"file1\" onchange=\"uploadFile()\"><br>" +
+        "<input type=\"file\" name=\"file1\" id=\"file1\" multiple onchange=\"uploadFile()\"><br>" +
         "<progress id=\"progressBar\" value=\"0\" max=\"100\" style=\"width:100%;\"></progress>" +
         "<h3 id=\"status\"></h3>" +
         "<p id=\"loaded_n_total\"></p>" +
         "</form>";
-    document.getElementById("details").innerHTML = uploadform;
-}
-function _(el) {
-    return document.getElementById(el);
+    _("details").innerHTML = uploadform;
 }
 function uploadFile() {
-    var file = _("file1").files[0];
     var formdata = new FormData();
-    formdata.append("file1", file);
+    Array.from(_("file1").files).forEach(file => {
+        formdata.append("files", file);
+    });
     var ajax = new XMLHttpRequest();
     ajax.upload.addEventListener("progress", progressHandler, false);
     ajax.addEventListener("load", completeHandler, false); // doesnt appear to ever get called even upon success
@@ -67,9 +69,9 @@ function completeHandler(event) {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "/listfiles", false);
     xmlhttp.send();
-    document.getElementById("status").innerHTML = "File Uploaded";
-    document.getElementById("detailsheader").innerHTML = "<h3>Files<h3>";
-    document.getElementById("details").innerHTML = xmlhttp.responseText;
+    _("status").innerHTML = "File Uploaded";
+    _("detailsheader").innerHTML = "<h3>Files<h3>";
+    _("details").innerHTML = xmlhttp.responseText;
 }
 function errorHandler(event) {
     _("status").innerHTML = "Upload Failed";
@@ -79,21 +81,20 @@ function abortHandler(event) {
 }
 function STACfg() {
     var form = document.forms['sta'];
-
     var urltocall = "/postSTA?sta_ssid=" + document.sta.sta_ssid.value + "&sta_psk=" + document.sta.sta_psk.value;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", urltocall, false);
     xmlhttp.send();
-    document.getElementById("STAstatus").innerHTML = xmlhttp.responseText;
+    _("STAstatus").innerHTML = xmlhttp.responseText;
     xmlhttp.open("GET", "/listfiles", false);
     xmlhttp.send();
-    document.getElementById("details").innerHTML = xmlhttp.responseText;
+    _("details").innerHTML = xmlhttp.responseText;
 }
 
 function showPreview(fileName) {
-    var modal = document.getElementById("myModal");
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
+    var modal = _("myModal");
+    var modalImg = _("img01");
+    var captionText = _("caption");
     modal.style.display = "block";
     modalImg.src = fileName;
     captionText.innerHTML = fileName;

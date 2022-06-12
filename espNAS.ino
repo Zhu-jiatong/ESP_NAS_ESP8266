@@ -1,10 +1,25 @@
 #include "libs/webCfg.h"
 #include "libs/display.h"
 
+IRAM_ATTR void loadSD()
+{
+    if (hasSD && stage == IDLE)
+    {
+        SD.end();
+        hasSD = false;
+        SDsize = "";
+    }
+    else if (!hasSD)
+    {
+        hasSD = SD.begin(D8, SPI_FULL_SPEED);
+        SDsize = humanReadableSize(SD.size64());
+    }
+}
+
 void setup()
 {
-    hasSD = SD.begin(D8, SPI_FULL_SPEED);
-    SDsize = humanReadableSize(SD.size64());
+    loadSD();
+    attachInterrupt(digitalPinToInterrupt(3), loadSD, FALLING);
     initOLED();
     stage = IDLE;
 

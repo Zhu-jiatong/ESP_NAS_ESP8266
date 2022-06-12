@@ -35,19 +35,22 @@ String listFiles()
 
 void handleUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
 {
-    if (!index) // open the file on first call and store the file handle in the request object
-        request->_tempFile = SD.open("/" + filename, "w");
-    if (len) // stream the incoming chunk to the opened file
+    if (hasSD)
     {
-        request->_tempFile.write(data, len);
-        stage = ING;
-    }
+        if (!index) // open the file on first call and store the file handle in the request object
+            request->_tempFile = SD.open("/" + filename, "w");
+        if (len) // stream the incoming chunk to the opened file
+        {
+            request->_tempFile.write(data, len);
+            stage = ING;
+        }
 
-    if (final)
-    { // close the file handle as the upload is now done
-        request->_tempFile.close();
-        request->redirect("/");
-        stage = IDLE;
+        if (final)
+        { // close the file handle as the upload is now done
+            request->_tempFile.close();
+            request->redirect("/");
+            stage = IDLE;
+        }
     }
 }
 

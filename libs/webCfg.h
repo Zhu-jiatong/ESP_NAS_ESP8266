@@ -111,6 +111,12 @@ void handleNotFound(AsyncWebServerRequest *request)
             mime = "video/mp4";
         else if (path.endsWith(".pdf"))
             mime = "application/pdf";
+        else if (path.endsWith(".doc") || path.endsWith(".docx"))
+            mime = "application/msword";
+        else if (path.endsWith("xlsx") || path.endsWith("xls"))
+            mime = "application/vnd.ms-excel";
+        else if (path.endsWith(".mov"))
+            mime = "video/quicktime";
 
         request->send(SDFS, path, mime);
     }

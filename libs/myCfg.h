@@ -34,4 +34,14 @@ String humanReadableSize(const uint64_t bytes)
         return String(bytes / 1024.0 / 1024.0 / 1024.0) + " GB";
 }
 
+void espSleep()
+{
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setCursor(0, 0);
+    display.print("\n Sleeping\n ...");
+    display.display();
+    ESP.deepSleep(0);
+}
+
 #endif // MYCFG_h

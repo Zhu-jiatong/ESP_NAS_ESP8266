@@ -35,7 +35,7 @@ void bioAuth()
             display.println("Biometric failed.");
             display.display();
             delay(3000);
-            ESP.deepSleep(0);
+            espSleep();
         }
     }
     fingerprint.ctrlLED(fingerprint.eBreathing, fingerprint.eLEDBlue, 0);
@@ -47,7 +47,8 @@ void bioAuth()
         display.println("Capture failed.");
         display.display();
         delay(3000);
-        ESP.deepSleep(0);
+        fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDBlue, 0);
+        espSleep();
     }
     fingerprint.ctrlLED(fingerprint.eFastBlink, fingerprint.eLEDYellow, 3);
     display.println("Fingerprint captured");
@@ -59,7 +60,7 @@ void bioAuth()
         display.display();
         delay(3000);
         fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDRed, 0);
-        ESP.deepSleep(0);
+        espSleep();
     }
     fingerprint.ctrlLED(fingerprint.eKeepsOn, fingerprint.eLEDGreen, 0);
     display.println("Matching success!");

@@ -80,7 +80,6 @@ function abortHandler(event) {
     _("status").innerHTML = "inUpload Aborted";
 }
 function STACfg() {
-    var form = document.forms['sta'];
     var urltocall = "/postSTA?sta_ssid=" + document.sta.sta_ssid.value + "&sta_psk=" + document.sta.sta_psk.value;
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", urltocall, false);
@@ -92,10 +91,7 @@ function STACfg() {
 }
 
 function showPreview(fileName) {
-    var modal = _("myModal");
-    var modalImg = _("img01");
-    var captionText = _("caption");
-    modal.style.display = "block";
-    modalImg.src = fileName;
-    captionText.innerHTML = fileName;
+    _("img01").src = fileName;
+    _("caption").innerHTML = fileName;
+    _("myModal").style.display = "block";
 }

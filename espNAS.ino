@@ -1,3 +1,6 @@
+#include <DFRobot_ID809_I2C.h>
+
+DFRobot_ID809_I2C fingerprint;
 #include "libs/webCfg.h"
 #include "libs/display.h"
 
@@ -16,12 +19,61 @@ IRAM_ATTR void loadSD()
     }
 }
 
+void bioAuth()
+{
+    unsigned long beginMillis{millis()};
+    unsigned long passMillis{};
+    fingerprint.begin();
+    display.clearDisplay();
+    display.println("Initialise Biometric");
+    display.display();
+    while (!fingerprint.isConnected())
+    {
+        passMillis = millis() - beginMillis;
+        if (passMillis > wakeTime)
+        {
+            display.println("Biometric failed.");
+            display.display();
+            delay(3000);
+            ESP.deepSleep(0);
+        }
+    }
+    fingerprint.ctrlLED(fingerprint.eBreathing, fingerprint.eLEDBlue, 0);
+    display.println("Biometric on.");
+    display.println("Press finger...");
+    display.display();
+    if (fingerprint.collectionFingerprint(10))
+    {
+        display.println("Capture failed.");
+        display.display();
+        delay(3000);
+        ESP.deepSleep(0);
+    }
+    fingerprint.ctrlLED(fingerprint.eFastBlink, fingerprint.eLEDYellow, 3);
+    display.println("Fingerprint captured");
+    display.display();
+    if (!fingerprint.search())
+    {
+        fingerprint.ctrlLED(fingerprint.eKeepsOn, fingerprint.eLEDRed, 0);
+        display.println("Matching failed");
+        display.display();
+        delay(3000);
+        fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDRed, 0);
+        ESP.deepSleep(0);
+    }
+    fingerprint.ctrlLED(fingerprint.eKeepsOn, fingerprint.eLEDGreen, 0);
+    display.println("Matching success!");
+    display.display();
+    delay(1000);
+    fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDGreen, 0);
+}
 void setup()
 {
+    initOLED();
+    bioAuth();
+    stage = IDLE;
     loadSD();
     attachInterrupt(digitalPinToInterrupt(3), loadSD, FALLING);
-    initOLED();
-    stage = IDLE;
 
     WiFi.mode(WIFI_AP_STA);
     String appsk;

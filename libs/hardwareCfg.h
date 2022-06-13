@@ -37,7 +37,7 @@ void updateTimer()
 
 IRAM_ATTR void loadSD()
 {
-    if (hasSD && stage == IDLE)
+    if (hasSD && !isUpload)
     {
         SD.end();
         hasSD = false;
@@ -63,7 +63,7 @@ void bioAuth()
         if (passMillis > wakeTime)
         {
             printd("Biometric failed.");
-            delay(3000);
+            delay(1000);
             espSleep();
         }
     }
@@ -72,7 +72,7 @@ void bioAuth()
     if (fingerprint.collectionFingerprint(10))
     {
         printd("Capture failed.");
-        delay(3000);
+        delay(1000);
         fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDBlue, 0);
         espSleep();
     }
@@ -82,13 +82,12 @@ void bioAuth()
     {
         fingerprint.ctrlLED(fingerprint.eKeepsOn, fingerprint.eLEDRed, 0);
         printd("Matching failed");
-        delay(3000);
+        delay(1000);
         fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDRed, 0);
         espSleep();
     }
     fingerprint.ctrlLED(fingerprint.eKeepsOn, fingerprint.eLEDGreen, 0);
     printd("Matching success!");
-    delay(1000);
     fingerprint.ctrlLED(fingerprint.eFadeOut, fingerprint.eLEDGreen, 0);
 }
 

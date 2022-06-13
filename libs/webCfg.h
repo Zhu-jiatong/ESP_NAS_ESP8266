@@ -47,14 +47,14 @@ void handleUpload(AsyncWebServerRequest *request, String filename, size_t index,
         if (len) // stream the incoming chunk to the opened file
         {
             request->_tempFile.write(data, len);
-            stage = ING;
+            isUpload = true;
         }
 
         if (final)
         { // close the file handle as the upload is now done
             request->_tempFile.close();
             request->redirect("/");
-            stage = IDLE;
+            isUpload = false;
         }
     }
 }
@@ -174,7 +174,6 @@ void handleSTA(AsyncWebServerRequest *request)
 void startNetwork()
 {
     WiFi.mode(WIFI_AP_STA);
-    String appsk;
     for (short i = 0; i < 8; ++i)
         appsk += char(random(32, 126));
 

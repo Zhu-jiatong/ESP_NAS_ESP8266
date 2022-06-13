@@ -4,12 +4,9 @@
 #define sToMillis(sec) (sec * 1000)
 #define milToS(mil) (mil / 1000)
 
-enum uploadStages
-{
-    ING,
-    IDLE
-} stage;
+bool isUpload{false};
 
+String appsk;
 bool hasSD{false};
 String SDsize{};
 unsigned long wakeTime{sToMillis(90)}, leftTime{};

@@ -5,7 +5,6 @@ void setup()
 {
     initOLED();
     bioAuth();
-    stage = IDLE;
     loadSD();
     attachInterrupt(digitalPinToInterrupt(3), loadSD, FALLING);
 

@@ -2,6 +2,11 @@
 #define WEBCFG_h
 
 #include "myCfg.h"
+#include <DNSServer.h>
+#include <ESP8266WiFi.h>
+#include <ESPAsyncWebServer.h>
+#include <ESPAsyncTCP.h>
+#include <SD.h>
 
 constexpr char *apssid = "TONY_NAS";
 constexpr char *dnsDom = "www.nas.com";
@@ -164,5 +169,30 @@ void handleSTA(AsyncWebServerRequest *request)
     }
     else
         request->send(400, "text/plain", "ERROR: name and action params required");
+}
+
+void startNetwork()
+{
+    WiFi.mode(WIFI_AP_STA);
+    String appsk;
+    for (short i = 0; i < 8; ++i)
+        appsk += char(random(32, 126));
+
+    WiFi.softAP(apssid, appsk);
+
+    APdnsServer.setTTL(300);
+    APdnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
+    APdnsServer.start(DNS_PORT, dnsDom, WiFi.softAPIP());
+}
+
+void startServer()
+{
+    server.on("/listfiles", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(200, "text/html", listFiles()); });
+    server.onFileUpload(handleUpload);
+    server.on("/file", HTTP_GET, handleFile);
+    server.on("/postSTA", HTTP_GET, handleSTA);
+    server.onNotFound(handleNotFound);
+    server.begin();
 }
 #endif // WEBCFG_h

@@ -2,18 +2,21 @@
 #define DISPLAY_h
 
 #include "myCfg.h"
-#include "sleepTimer.h"
+#include "webCfg.h"
+#include <Adafruit_SSD1306.h>
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 void initOLED()
 {
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C, false);
-    display.setTextSize(1);
     display.setTextColor(SSD1306_WHITE);
+    display.clearDisplay();
 }
 
-void printStr()
+void homeRefresh()
 {
     display.clearDisplay();
+    display.setTextSize(1);
     display.setCursor(0, 0);
     display.printf("AP_SSID: %s\n", WiFi.softAPSSID());
     display.printf("AP_PSK: %s\n", WiFi.softAPPSK().c_str());
@@ -29,4 +32,11 @@ void printStr()
     display.printf("To Sleep: %i sec", milToS(leftTime));
     display.display();
 }
+
+void printd(const char *text)
+{
+    display.println(text);
+    display.display();
+}
+
 #endif // DISPLAY_h
